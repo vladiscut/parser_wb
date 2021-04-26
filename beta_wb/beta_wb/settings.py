@@ -9,7 +9,7 @@ import selenium
 
 
 SELENIUM_DRIVER_NAME = 'chrome'
-SELENIUM_DRIVER_EXECUTABLE_PATH = which(r'C:\Users\v.sotnikov\Desktop\Vlad\Vlad\chromedriver.exe')
+SELENIUM_DRIVER_EXECUTABLE_PATH = which(r'C:\Users\v.sotnikov\Desktop\парсер\chrome\chromedriver.exe')
 SELENIUM_DRIVER_ARGUMENTS = ['--headless']
 
 
