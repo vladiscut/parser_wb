@@ -32,7 +32,7 @@ class WB(scrapy.Spider):
                  'Первая цена', 'Текущая цена', 'Отзывов', '+ к отзывам', 'Купили раз', '+к купили раз',
                  'Кол-во звезд', 'Поразмерная дистрибуция'])
     global df_vse
-    df_vse = pd.read_excel(r'C:\Users\v.sotnikov\PycharmProjects\parser_wb_categ\beta_wb\beta_wb\spiders\isxod\все.xlsx')
+    df_vse = pd.read_excel(r'C:\Users\v.sotnikov\PycharmProjects\pythonProject8\venv\wb_scrapy\beta_wb\beta_wb\spiders\isxod\все.xlsx')
 
     def start_requests(self):
         global i
@@ -46,9 +46,9 @@ class WB(scrapy.Spider):
             global URL
             URL = URL_1 + URL_2 + URL_3
             yield SeleniumRequest( url=URL,callback=self.parse, cb_kwargs={'index':i})
-            # if i==5:
-            #     df.to_excel('all_all.xlsx', index=False)
-            #     break
+            if i==15:
+                df.to_excel('all_all.xlsx', index=False)
+                break
 
     def parse(self,response,index):
         global i
@@ -56,10 +56,7 @@ class WB(scrapy.Spider):
         count_able=0
         count_disable=0
         driver = response.request.meta['driver']
-        # import ipdb; ipdb.set_trace()
-        # time.sleep(1)
-        # print(driver.page_source)
-        # driver.find_element_by_class_name('order-quantity j-orders-count-wrapper').extract()
+
         for k in response.selector.xpath('//label[@class="j-size active"]/span[1]/text()'):
             print(k.get())
             count_able = count_able + 1
@@ -74,6 +71,7 @@ class WB(scrapy.Spider):
         else:
             distribution = 0
         print(index, '_________',index)
+        # print(str(re.sub('\D', '',str(response.selector.xpath("//p[@class='order-quantity j-orders-count-wrapper']/span[1]/text()").extract()).replace('xa0',''))))
         df = df.append( {'Артикул' : df_vse['Артикул'].iloc[index],
                          'Направление' : df_vse['Направление'].iloc[index],
                          'Группа': df_vse['Категория'].iloc[index],
@@ -82,10 +80,10 @@ class WB(scrapy.Spider):
                          'Текущая цена' : re.sub('[\[\'\]]','',str(response.selector.xpath("//*[@id='container']/div[1]/div[2]/div[4]/div[2]/div/div/div/span/text()").extract()).replace(' ','').replace('\\xa0', '').replace('₽','')),
                          'Отзывов' : str(re.sub('\D', '',str(response.selector.xpath("//*[@id='a-Comments']/text()").extract()))),
                          'ТМ' : re.sub('[\[\'\]]','',str(response.selector.xpath("//*[@id='container']/div[1]/div[2]/div[1]/div[1]/span[1]/text()").extract()).strip().replace('[','')),
-                         'Купили раз' : str(re.sub('\D', '',str(response.selector.xpath("//p[@class='order-quantity j-orders-count-wrapper']/span[1]/text()").extract()))),
+                         'Купили раз' : str(re.sub('\D', '',str(response.selector.xpath("//p[@class='order-quantity j-orders-count-wrapper']/span[1]/text()").extract()).replace('xa0',''))),
                          'Название' : re.sub('[\[\'\]]','',str(response.selector.xpath('//*[@id="container"]/div[1]/div[2]/div[1]/div[1]/span[2]/text()').extract())),
                          'Кол-во звезд' : re.sub('[\[\'\]]','',str(response.selector.xpath('//*[@id="container"]/div[1]/div[2]/div[2]/div[2]/p/span/text()').extract())),
-                         'Поразмерная дистрибуция':str(distribution)+'%'},ignore_index=True )
+                         'Поразмерная дистрибуция':str(distribution)+'%' },ignore_index=True )
         if index==10000:
             df.to_excel('10000.xlsx', index=False)
         if index == 20000:
