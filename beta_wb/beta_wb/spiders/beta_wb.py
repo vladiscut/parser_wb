@@ -28,11 +28,11 @@ class WB(scrapy.Spider):
     # start_urls = ['https://www.wildberries.ru/catalog/9131176/detail.aspx?targetUrl=GP']
     global df
     df = pd.DataFrame(
-        columns=['Артикул', 'Актикул Кари', 'Байер', 'Направление', 'Группа', 'Подгруппа', 'ТМ', 'Название',
+        columns=['Артикул', 'Артикул Кари', 'Байер', 'Направление', 'Группа', 'Подгруппа', 'ТМ', 'Название',
                  'Первая цена', 'Текущая цена', 'Отзывов', '+ к отзывам', 'Купили раз', '+к купили раз',
                  'Кол-во звезд', 'Поразмерная дистрибуция'])
     global df_vse
-    df_vse = pd.read_excel(r'C:\Users\v.sotnikov\PycharmProjects\pythonProject8\venv\wb_scrapy\beta_wb\beta_wb\spiders\isxod\все.xlsx')
+    df_vse = pd.read_excel(r'C:\Users\v.sotnikov\PycharmProjects\parser_wb_categ\beta_wb\beta_wb\spiders\isxod\все.xlsx')
 
     def start_requests(self):
         global i
@@ -46,7 +46,7 @@ class WB(scrapy.Spider):
             global URL
             URL = URL_1 + URL_2 + URL_3
             yield SeleniumRequest( url=URL,callback=self.parse, cb_kwargs={'index':i})
-            # if i==15:
+            # if i==5:
             #     df.to_excel('all_all.xlsx', index=False)
             #     break
 
@@ -85,7 +85,7 @@ class WB(scrapy.Spider):
                          'Купили раз' : str(re.sub('\D', '',str(response.selector.xpath("//p[@class='order-quantity j-orders-count-wrapper']/span[1]/text()").extract()))),
                          'Название' : re.sub('[\[\'\]]','',str(response.selector.xpath('//*[@id="container"]/div[1]/div[2]/div[1]/div[1]/span[2]/text()').extract())),
                          'Кол-во звезд' : re.sub('[\[\'\]]','',str(response.selector.xpath('//*[@id="container"]/div[1]/div[2]/div[2]/div[2]/p/span/text()').extract())),
-                         'Поразмерная дистрибуция':distribution },ignore_index=True )
+                         'Поразмерная дистрибуция':str(distribution)+'%'},ignore_index=True )
         if index==10000:
             df.to_excel('10000.xlsx', index=False)
         if index == 20000:
