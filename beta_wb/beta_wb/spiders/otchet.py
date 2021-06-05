@@ -122,7 +122,7 @@ def Otchet():
     df_pivot_igrushki = df_now_igrushki.pivot_table(index=["Направление", "Группа", "Подгруппа"], values=["Артикул","Артикул Кари"], aggfunc='count')
     df_pivot_uvelirka = df_now_uvelirka.pivot_table(index=["Направление", "Группа", "Подгруппа"], values=["Артикул","Артикул Кари"], aggfunc='count')
 
-    excel_dir = r".\ready\парсинг_2021_18_одежда.xlsx"
+    excel_dir = r".\ready\парсинг_2021_19_одежда.xlsx"
 
     with pd.ExcelWriter(excel_dir, engine='xlsxwriter') as writer:
         df_now_odezda.to_excel(writer, 'Парсинг', index=False)
@@ -163,6 +163,7 @@ def Otchet():
         #     worksheet.set_column('B:B', 25, format2)
         worksheet.set_column('C:C', 18, format1)
         worksheet.set_column('D:D', 22, format1)
+        worksheet.set_column('Q:Q', 66, format1)
         #     worksheet.set_column('E:E', 13, format2)
 
         header_format = workbook.add_format({
@@ -180,7 +181,7 @@ def Otchet():
             worksheet.write(0, col_num, value, header_format)
         writer.save()
 
-    excel_dir = r".\ready\парсинг_2021_18_обувь.xlsx"
+    excel_dir = r".\ready\парсинг_2021_19_обувь.xlsx"
 
     with pd.ExcelWriter(excel_dir, engine='xlsxwriter') as writer:
         df_now_obuv.to_excel(writer, 'Парсинг', index=False)
@@ -222,6 +223,7 @@ def Otchet():
         worksheet.set_column('C:C', 18, format1)
         worksheet.set_column('D:D', 22, format1)
         #     worksheet.set_column('E:E', 13, format2)
+        worksheet.set_column('Q:Q', 66, format1)
 
         header_format = workbook.add_format({
             'bold': True,
@@ -238,7 +240,7 @@ def Otchet():
             worksheet.write(0, col_num, value, header_format)
         writer.save()
 
-    excel_dir = r".\ready\парсинг_2021_17_сумки.xlsx"
+    excel_dir = r".\ready\парсинг_2021_19_сумки.xlsx"
 
     with pd.ExcelWriter(excel_dir, engine='xlsxwriter') as writer:
         df_now_sumki.to_excel(writer, 'Парсинг', index=False)
@@ -280,6 +282,7 @@ def Otchet():
         worksheet.set_column('C:C', 18, format1)
         worksheet.set_column('D:D', 22, format1)
         #     worksheet.set_column('E:E', 13, format2)
+        worksheet.set_column('Q:Q', 66, format1)
 
         header_format = workbook.add_format({
             'bold': True,
@@ -296,7 +299,7 @@ def Otchet():
             worksheet.write(0, col_num, value, header_format)
         writer.save()
 
-    excel_dir = r".\ready\парсинг_2021_17_игрушки.xlsx"
+    excel_dir = r".\ready\парсинг_2021_19_игрушки.xlsx"
 
     with pd.ExcelWriter(excel_dir, engine='xlsxwriter') as writer:
         df_now_igrushki.to_excel(writer, 'Парсинг', index=False)
@@ -338,6 +341,7 @@ def Otchet():
         worksheet.set_column('C:C', 18, format1)
         worksheet.set_column('D:D', 22, format1)
         #     worksheet.set_column('E:E', 13, format2)
+        worksheet.set_column('Q:Q', 66, format1)
 
         header_format = workbook.add_format({
             'bold': True,
@@ -354,7 +358,7 @@ def Otchet():
             worksheet.write(0, col_num, value, header_format)
         writer.save()
 
-    excel_dir = r".\ready\парсинг2_2021_17_ювелирные.xlsx"
+    excel_dir = r".\ready\парсинг_2021_19_ювелирные.xlsx"
 
     with pd.ExcelWriter(excel_dir, engine='xlsxwriter') as writer:
         df_now_uvelirka.to_excel(writer, 'Парсинг', index=False)
@@ -396,6 +400,7 @@ def Otchet():
         worksheet.set_column('C:C', 18, format1)
         worksheet.set_column('D:D', 22, format1)
         #     worksheet.set_column('E:E', 13, format2)
+        worksheet.set_column('Q:Q', 66, format1)
 
         header_format = workbook.add_format({
             'bold': True,

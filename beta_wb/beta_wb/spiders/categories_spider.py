@@ -22,29 +22,36 @@ from bs4 import BeautifulSoup
 import openpyxl
 import math
 
-class WB(scrapy.Spider):
+class WB_cat(scrapy.Spider):
     name = 'wb_cat'
     allowed_domains = ['wildberries.ru']
 
-    def start_requests(self):
-        global URL
-        driver = response.request.meta['driver']
-        time.sleep(1)
-        driver.find_element_by_xpath("//button[@class='nav-element__burger j-menu-burger-btn']").click()
-        time.sleep(2)
-        cats = response.selector.xpath("//li[@class='menu-burger__main-list-item menu-burger__main-list-item--subcategory']/a/@href").extract()
-        for cat in cats:
-            URL = cat
-            yield SeleniumRequest(url=URL,callback=self.parse)
 
+    def start_requests(self):
+        URL = 'https://www.wildberries.ru/'
+        # global URL
+        # driver = response.request.meta['driver']
+        # time.sleep(1)
+        # driver.find_element_by_xpath("//button[@class='nav-element__burger j-menu-burger-btn']").click()
+        # time.sleep(2)
+        # cats = response.selector.xpath("//li[@class='menu-burger__main-list-item menu-burger__main-list-item--subcategory']/a/@href").extract()
+        # for cat in cats:
+        #     URL = cat
+        yield SeleniumRequest(url=URL,callback=self.parse)
 
     def parse(self,response):
         driver = response.request.meta['driver']
         time.sleep(1)
         driver.find_element_by_xpath("//button[@class='nav-element__burger j-menu-burger-btn']").click()
         time.sleep(2)
-        k = response.selector.xpath("//li[@class='menu-burger__main-list-item menu-burger__main-list-item--subcategory']/a/@href").extract_first()
+        k = response.selector.xpath("//li[@class='menu-burger__main-list-item j-menu-main-item menu-burger__main-list-item--subcategory menu-burger__main-list-item--active']/a/@href").extract_first()
         print(k, '__________________')
+
+
+
+
+
+
 
 
 

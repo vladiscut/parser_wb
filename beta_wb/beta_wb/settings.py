@@ -9,7 +9,7 @@ import selenium
 
 
 SELENIUM_DRIVER_NAME = 'chrome'
-SELENIUM_DRIVER_EXECUTABLE_PATH = which(r'C:\Users\v.sotnikov\Desktop\парсер\chrome\chromedriver.exe')
+SELENIUM_DRIVER_EXECUTABLE_PATH = r'C:\Users\v.sotnikov\Desktop\парсер\chrome\chromedriver.exe'
 SELENIUM_DRIVER_ARGUMENTS = ['--headless']
 
 
@@ -18,6 +18,7 @@ BOT_NAME = 'beta_wb'
 
 SPIDER_MODULES = ['beta_wb.spiders']
 NEWSPIDER_MODULE = 'beta_wb.spiders'
+
 
 
 # Crawl responsibly by identifying yourself (and your website) on the user-agent

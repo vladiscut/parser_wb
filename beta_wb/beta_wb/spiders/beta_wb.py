@@ -25,9 +25,21 @@ from .otchet import*
 
 
 class WB(scrapy.Spider):
+    def closed(self, reason):
+        df_obuv.to_excel('all_obuv.xlsx', index=False)
+        df_odezhda.to_excel('all_odezhda.xlsx', index=False)
+        df_sumki.to_excel('all_sumki.xlsx', index=False)
+        df_igrushki.to_excel('all_igrushki.xlsx', index=False)
+        df_uvelirka.to_excel('all_uvelirka.xlsx', index=False)
+        df_all_all = pd.concat([df_obuv,df_odezhda,df_sumki,df_igrushki,df_uvelirka])
+        df_all_all.to_excel(r'all_new.xlsx', index=False)
+        Otchet()
+
+
+
     name = 'wb'
     allowed_domains = ['wildberries.ru']
-    # start_urls = ['https://www.wildberries.ru/catalog/9131176/detail.aspx?targetUrl=GP']
+    start_urls = ['https://www.wildberries.ru/catalog/9131176/detail.aspx?targetUrl=GP']
     global df_obuv
     global df_odezhda
     global df_igrushki
@@ -68,13 +80,6 @@ class WB(scrapy.Spider):
             global URL
             URL = URL_1 + URL_2 + URL_3
             yield SeleniumRequest( url=URL,callback=self.parse, cb_kwargs={'index':i, 'URL':URL})
-            if i == len(df_vse)-1:
-                df_obuv.to_excel('all_obuv.xlsx', index=False)
-                df_odezhda.to_excel('all_odezhda.xlsx', index=False)
-                df_sumki.to_excel('all_sumki.xlsx', index=False)
-                df_igrushki.to_excel('all_igrushki.xlsx', index=False)
-                df_uvelirka.to_excel('all_uvelirka.xlsx', index=False)
-                Otchet()
 
     def parse(self,response,index,URL):
         global i
@@ -121,7 +126,7 @@ class WB(scrapy.Spider):
                              'Направление' : df_vse['Направление'].iloc[index],
                              'Группа': df_vse['Категория'].iloc[index],
                              'Подгруппа': df_vse['Подкатегория'].iloc[index],
-                             'Первая цена' : re.sub('[\[\'\]]','',str(response.selector.xpath("//*[@id='container']/div[1]/div[2]/div[4]/div[2]/div/div/span/del/text()").extract()).replace(' ','').replace('\\xa0', '').replace('₽','')),
+                              'Первая цена' : re.sub('[\[\'\]]','',str(response.selector.xpath("//*[@id='container']/div[1]/div[2]/div[4]/div[2]/div/div/span/del/text()").extract()).replace(' ','').replace('\\xa0', '').replace('₽','')),
                              'Текущая цена' : re.sub('[\[\'\]]','',str(response.selector.xpath("//*[@id='container']/div[1]/div[2]/div[4]/div[2]/div/div/div/span/text()").extract()).replace(' ','').replace('\\xa0', '').replace('₽','')),
                              'Отзывов' : str(re.sub('\D', '',str(response.selector.xpath("//*[@id='a-Comments']/text()").extract()))),
                              'ТМ' : re.sub('[\[\'\]]','',str(response.selector.xpath("//*[@id='container']/div[1]/div[2]/div[1]/div[1]/span[1]/text()").extract()).strip().replace('[','')),
@@ -174,6 +179,7 @@ class WB(scrapy.Spider):
                              'Кол-во звезд' : re.sub('[\[\'\]]','',str(response.selector.xpath('//*[@id="container"]/div[1]/div[2]/div[2]/div[2]/p/span/text()').extract())),
                              'Поразмерная дистрибуция':str(distribution)+'%',
                              'Ссылка на товар': str(URL)},ignore_index=True )
+
         if index==10000:
             df_obuv.to_excel('stages/10000_obuv.xlsx', index=False)
             df_odezhda.to_excel('stages/10000_odezhda.xlsx', index=False)
